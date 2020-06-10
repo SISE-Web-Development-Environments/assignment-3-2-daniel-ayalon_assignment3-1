@@ -158,36 +158,13 @@ async function searchForRecipes(searchParams,req) {
       }
      
     });
-    let good_recipes= await check_instructions(search_Response.data.results,searchParams);
+    let good_recipes= await check_instructions(search_Response,searchParams);
     const recipes_id_list = extractSearchResultsIds(search_Response,)
     let info_array = await getRecipesInfo(recipes_id_list,req);
     return info_array;
   }catch (error) {
     throw new Error();
   }
-}
-async function check_instructions(recipes,searchParams){
-  let i=0;
-   while(i<recipes.length){
-       while (recipes[i].instructions === null){
-           recipes[i] =await axios.get(`${api_domain}/search`, {
-               params: {
-                   query: searchParams.query,
-                   number: 1,
-                   cuisine:searchParams["cuisine"] ,
-                   diet: searchParams["diet"],
-                   intolerance: searchParams["intolerance"],
-                   instructionsRequired: true,
-                   apiKey: process.env.spooncular_apiKey,
-               }
-
-           });
-           recipes[i]=recipes[i].data.results
-       }
-       recipes.push(recipes[i]);
-      i++
-   }
-      return recipes;
 }
 async function getRecipesInfo(recipes_id_list,req) {
   let promises = [];
@@ -206,6 +183,33 @@ async function getRecipesInfo(recipes_id_list,req) {
   let relevantRecipesData = extractrelevantRecipeData(promises,req);
   return relevantRecipesData;
 
+}
+
+async function check_instructions(recipes,searchParams){
+  let i=0;
+  let array_of_recipes=recipes.data.results;
+  while(i<array_of_recipes.length){
+       while (array_of_recipes[i].instructions === null){
+           array_of_recipes[i] =await axios.get(`${api_domain}/search`, {
+               params: {
+                   query: searchParams.query,
+                   number: 1,
+                   cuisine:searchParams["cuisine"] ,
+                   diet: searchParams["diet"],
+                   intolerance: searchParams["intolerance"],
+                   instructionsRequired: true,
+                   apiKey: process.env.spooncular_apiKey,
+               }
+
+           });
+
+           array_of_recipes.push(array_of_recipes[i]);
+       }
+
+      i++
+   }
+   recipes.data.results=array_of_recipes;
+   return recipes;
 }
 async function addToWatchTable(recipID,req) {
   if(req.session.user_id) {
