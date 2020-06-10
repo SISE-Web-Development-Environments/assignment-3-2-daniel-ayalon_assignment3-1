@@ -1,0 +1,45 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    
+    "version": "0.2.0",
+    "configurations": [
+
+        {
+            "runtimeExecutable": "C:/Program Files/nodejs/node.exe",
+            "type": "node",
+            "request": "launch",
+            "name": "Launch Program",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}\\codes\\solution\\main.js",
+            "env": {
+                "tedious_userName":"DanielAyalon",
+                "tedious_password":"e62d61adD",
+                "tedious_server":"assignment3-ayalon-daniel.database.windows.net",
+                "tedious_database":"RecipeDB",
+                "COOKIE_SECRET":"this_is_my_secret",
+                "spooncular_apiKey":"8307d8e59f324c208fda43c948a08a63",
+                "bcrypt_saltRounds":"13"
+            }
+        }
+    ]
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+  
+    
+}
